@@ -1,0 +1,30 @@
+.game-field {
+
+  &_square {
+    background-color: #e0e1e2;
+    margin: 5px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    cursor: pointer;
+    transition: background-color .3s ease-out;
+    -webkit-transition: background-color .3s ease-out;
+    -moz-transition: background-color .3s ease-out;
+    -ms-transition: background-color .3s ease-out;
+    -o-transition: background-color .3s ease-out;
+    
+    &-computer {
+      background-color: red!important;
+    }
+
+    &-player {
+      background-color: green!important;
+    }
+
+    &-active {
+      background-color: blue;
+    }
+  }
+}

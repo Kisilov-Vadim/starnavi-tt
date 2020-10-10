@@ -1,0 +1,29 @@
+.game-field {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 50px;
+
+  &_controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &_input {
+    margin: 0 10px;
+  }
+
+  &_congrats {
+    margin: 20px 0;
+  }
+
+  &_game {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 10%;
+    width: 100%;
+  }
+}
