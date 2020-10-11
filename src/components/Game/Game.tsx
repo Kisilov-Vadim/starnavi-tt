@@ -5,36 +5,34 @@ import { setGameActiveArea } from '../../store/actions';
 //components
 import Square from '../Square/Square';
 
-interface Props {
-  start: boolean
-}
-
-export default function Game({ start }: Props): ReactElement {
+export default function Game(): ReactElement {
   const [activeSquare, setActiveSquare] = useState<null | number>(null);
+  const player = useSelector((state:any) => state.player);
   const gameArea = useSelector((state:any) => state.gameArea);
   const gameActiveArea = useSelector((state: any) => state.gameActiveArea);
+  const gameStart = useSelector((state:any) => state.gameStart);
   const dispatch = useDispatch();
 
   let timer:any = useRef(); 
 
   useEffect(() => {
+    if (!player.game_settings) return;
     clearInterval(timer.current);
-    if (start) {
+    if (gameStart) {
       timer.current = setInterval(() => {
-        let active = Math.floor(Math.random() * (gameActiveArea.length - 0) + 0);
+        let active = Math.floor(Math.random() * gameActiveArea.length);
         while(activeSquare === gameActiveArea[active]) {
           setActiveSquare(null);
-          active = Math.floor(Math.random() * (gameActiveArea.length - 0) + 0);
+          active = Math.floor(Math.random() * gameActiveArea.length);
         }
         setActiveSquare(gameActiveArea[active]);
-      }, 1000)
+      }, player.game_settings.delay)
     } else {
-      console.log('test')
       clearInterval(timer.current);
       dispatch(setGameActiveArea(gameArea));
       setActiveSquare(null);
     }
-  }, [start, gameActiveArea])
+  }, [gameStart, gameActiveArea])
 
   return (
     <div className="game-field_game">
@@ -43,6 +41,7 @@ export default function Game({ start }: Props): ReactElement {
           <Square 
             active={index === activeSquare ? true : false} 
             id={id}
+            key={id}
           />
         ))
       }

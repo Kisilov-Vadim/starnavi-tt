@@ -6,14 +6,35 @@
   align-items: center;
   padding: 0 50px;
 
+  @media screen and (max-width: 999px) {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 576px) {
+    padding: 0 20px;
+  }
+
   &_controls {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+
+    @media screen and (max-width: 576px) {
+      flex-direction: column;
+      width: 100%;
+
+      & > div, & > button {
+        width: 100%;
+      }
+    }
+   }
 
   &_input {
     margin: 0 10px;
+
+    @media screen and (max-width: 576px) {
+      margin: 10px 0;
+    }
   }
 
   &_congrats {
@@ -25,5 +46,9 @@
     flex-wrap: wrap;
     padding: 0 10%;
     width: 100%;
+
+    @media screen and (max-width: 999px) {
+      padding: 0;
+    }
   }
 }

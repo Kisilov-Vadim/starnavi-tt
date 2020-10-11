@@ -1,65 +1,80 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import './GameField.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, DropdownProps, Input, Select } from 'semantic-ui-react'
+import { Button, DropdownProps, Input, Loader, Select } from 'semantic-ui-react'
 import { createGameArea } from '../../Utilits/Utilits';
 
 //components
 import Game from '../Game/Game';
 
-//types
-import { TDefaultSettings } from '../../Utilits/Types'; 
-
 //actions
-import { setDefaultSettings, setGameArea, setGameStart } from '../../store/actions';
+import { setGameArea, setGameStart, setMessage, setPlayer } from '../../store/actions';
+import Message from '../Message/Message';
 
 
 export default function GameField(): ReactElement {
-  const [start, setStart] = useState<boolean>(false);
+  const [name, setName] = useState<string>('');
 
   const gameSettings = useSelector((state: any) => state.gameSettings);
+  const gameStart = useSelector((state: any) => state.gameStart);
+  const player = useSelector((state:any) => state.player)
   const dispatch = useDispatch();
 
   const handleChange = (_:any, { value, options }:DropdownProps) => {
-    let newGameSettings = [...gameSettings].map((setting: TDefaultSettings) => {
-      if (setting.value === value) {
-        setting.selected = true; 
-      } else {
-        setting.selected = false; 
-      }
-      return setting; 
-    })
     let currentOption:any = options ? options.find((item: any ) => item.value === value) : 5;
 
-    dispatch(setDefaultSettings(newGameSettings));
-    dispatch(setGameArea(createGameArea(currentOption.square_per_line)))
+    player.game_settings = currentOption; 
+
+    dispatch(setPlayer(player));
+    dispatch(setGameArea(createGameArea(currentOption.field)))
   }
 
   const handleStartGame = () => {
-    setStart((prev) => {
-      dispatch(setGameStart(!prev));
-      return !prev
-    });
+    if (name === '' || !player.game_settings) {
+      dispatch(setMessage({
+        message: 'Fill in all the details above',
+        color: 'red'
+      }))
+      setTimeout(() => {
+        dispatch(setMessage({
+          message: '',
+          color: ''
+        }))
+      }, 3000)
+      return;
+    }
+    player.name = name;
+    dispatch(setPlayer(player));
+    dispatch(setGameStart(!gameStart));
+  }
+
+  const handleNameChange = (e:any) => {
+    setName(e.target.value)
   }
 
   if (!gameSettings) {
-
     return (
-      <h1>Loading...</h1>
+      <div className="game-field">
+        <Loader active inline='centered' />
+      </div>
     )
   } else {
 
     return (
       <div className="game-field">
         <div className="game-field_controls">
-          <Select placeholder='Pick game mode' options={gameSettings} onChange={handleChange} />
-          <Input placeholder='Enter your name' className="game-field_input" />
-          <Button content={`${start ? 'Stop' : 'Play'}`} onClick={handleStartGame} />
+          <Select placeholder='Pick game mode' options={gameSettings} onChange={handleChange} disabled={gameStart} />
+          <Input 
+            placeholder='Enter your name' 
+            className="game-field_input" 
+            disabled={gameStart} 
+            value={name}
+            onChange={handleNameChange}
+          />
+          <Button content={`${gameStart ? 'Stop' : 'Play'}`} onClick={handleStartGame} />
         </div>
-        <div className="game-field_congrats">
-          <span>Message here</span>
-        </div>
-        <Game start={start} />
+        <Message />
+        <Game />
       </div>
     )
   }

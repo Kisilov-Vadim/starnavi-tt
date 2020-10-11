@@ -10,7 +10,20 @@ const initialState = {
   gameSettings: null,
   gameArea: null, 
   gameActiveArea: null,
-  gameStart: false
+  gameStart: false,
+  player: {
+    name: '', 
+    game_settings: null
+  },
+  alert_message: {
+    message: '',
+    color: ''
+  },
+  score: {
+    computer: 0, 
+    player: 0
+  },
+  winners: null
 };
 
 export const reducer = (state=initialState, action:TAction) => {
@@ -35,6 +48,26 @@ export const reducer = (state=initialState, action:TAction) => {
       return {
         ...state,
         gameStart: action.value
+      }
+    case ACTIONS.SET_PLAYER: 
+      return {
+        ...state, 
+        player: { ...action.value }
+      }
+    case ACTIONS.SET_MESSAGE: 
+      return {
+        ...state, 
+        alert_message: { ...action.value }
+      }
+    case ACTIONS.SET_SCORE: 
+      return {
+        ...state, 
+        score: { ...action.value }
+      }
+    case ACTIONS.SET_WINNERS: 
+      return {
+        ...state, 
+        winners: action.value
       }
     default:
       return state;

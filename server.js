@@ -1,35 +1,54 @@
 const express = require('express')
 const path = require('path')
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const app = express()
 const port = 3001
 
 app.use(express.static(path.join(__dirname, '/build')));
 app.use(cors());
+// create application/json parser
+var jsonParser = bodyParser.json()
 
 let settings = [
-  {
-    key: 1, 
+  { 
     value: 'easy',
     text: 'Easy',
-    square_per_line: 4,
+    field: 4,
+    delay: 1100
   },
   {
-    key: 2, 
     value: 'medium',
     text: 'Medium',
-    square_per_line: 5,
+    field: 5,
+    delay: 900
   },
   {
-    key: 3, 
     value: 'hard',
     text: 'Hard',
-    square_per_line: 6,
+    field: 6,
+    delay: 700
+  },
+  {
+    value: 'super',
+    text: 'Super Hard',
+    field: 8,
+    delay: 500
   },
 ]
 
+let winners = []
+
 app.get("/api/game-settings", (req, res) => {
   res.json(settings);
+})
+
+app.post("/api/winners", jsonParser, (req, res) => {
+  if (req.body.length != 0) {
+    winners.push(...req.body);
+  }
+
+  res.json(winners);
 })
 
 app.get("*", (req, res) => {
