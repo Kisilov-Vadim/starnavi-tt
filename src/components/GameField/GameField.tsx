@@ -8,7 +8,7 @@ import { createGameArea } from '../../Utilits/Utilits';
 import Game from '../Game/Game';
 
 //actions
-import { setGameArea, setGameStart, setMessage, setPlayer } from '../../store/actions';
+import { setGameArea, setGameStart, setMessage, setPlayer, setScore } from '../../store/actions';
 import Message from '../Message/Message';
 
 
@@ -46,6 +46,7 @@ export default function GameField(): ReactElement {
     player.name = name;
     dispatch(setPlayer(player));
     dispatch(setGameStart(!gameStart));
+    dispatch(setScore({ player: 0, computer: 0 }))
   }
 
   const handleNameChange = (e:any) => {
