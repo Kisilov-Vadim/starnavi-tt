@@ -25,3 +25,8 @@
 - "build": build project,
 - "server-dev": start server with detect changes online (nodemon),
 - "server": start server
+
+### How use app? 
+
+- npm run server in main app directory. Server will run on port: 3001
+- got to [Link] (http://localhost:3001)
