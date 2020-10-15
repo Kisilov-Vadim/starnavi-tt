@@ -1,11 +1,11 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useRef, useState, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setGameActiveArea } from '../../store/actions';
 
 //components
 import Square from '../Square/Square';
 
-export default function Game(): ReactElement {
+export default memo(function Game(): ReactElement {
   const [activeSquare, setActiveSquare] = useState<null | number>(null);
   const player = useSelector((state:any) => state.player);
   const gameArea = useSelector((state:any) => state.gameArea);
@@ -47,4 +47,4 @@ export default function Game(): ReactElement {
       }
     </div>
   )
-}
+})

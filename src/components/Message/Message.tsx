@@ -1,8 +1,8 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, memo } from 'react'
 import { useSelector } from 'react-redux';
 
 
-export default function Message(): ReactElement {
+export default memo(function Message(): ReactElement {
   const {message, color} = useSelector((state:any) => state.alert_message);
   
   return (
@@ -10,4 +10,5 @@ export default function Message(): ReactElement {
       <span style={{ color }}>{message}</span>
     </div>
   )
-}
+})
+

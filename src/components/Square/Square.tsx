@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState, memo } from 'react';
 import './Square.scss';
 import $ from 'jquery';
 
